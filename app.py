@@ -202,7 +202,7 @@ def generate_recommended_spots(weather_data, activities, stay_period):
 
 # Set page config
 st.set_page_config(
-    page_title="Travel Packing Assistant",
+    page_title="Carry Buddy",
     page_icon="🧳",
     layout="centered"
 )
@@ -318,6 +318,21 @@ st.markdown("""
     /* Chat input */
     .stApp .stChatInput>div>div>textarea {
         color: black !important;
+        background-color: white !important;
+        border: 1px solid #e0e0e0 !important;
+    }
+    .stApp .stChatInput>div>div>textarea:focus {
+        border-color: #2b313e !important;
+        box-shadow: 0 0 0 1px #2b313e !important;
+    }
+    /* Chat input container */
+    .stApp .stChatInput {
+        background-color: white !important;
+    }
+    .stApp .stChatInput>div {
+        background-color: white !important;
+    }
+    .stApp .stChatInput>div>div {
         background-color: white !important;
     }
     /* Warning messages */
