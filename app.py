@@ -5,18 +5,17 @@ import os
 import json
 import requests
 from datetime import datetime, timedelta
-from AWS_access_keys import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN, AWS_REGION
+
 # Load environment variables
 load_dotenv()
 
-
+modelID_templete = 'anthropic.claude-3-5-haiku-20241022-v1:0'
 
 bedrock = boto3.client(
     service_name='bedrock-runtime',
-    region_name=AWS_REGION,
-    aws_access_key_id=AWS_ACCESS_KEY_ID,
-    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-    aws_session_token=AWS_SESSION_TOKEN
+    region_name=os.getenv('AWS_REGION'),
+    aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+    aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
 )
 
 # Weather API configuration
@@ -29,17 +28,14 @@ def get_weather_data(location, start_date, end_date):
         # Convert dates to datetime objects
         start = datetime.strptime(start_date, "%Y-%m-%d")
         end = datetime.strptime(end_date, "%Y-%m-%d")
-        
-        # Calculate number of days
-        days = (end - start).days + 1
+        days = min((end - start).days + 1, 14)
         
         # Get weather forecast
         params = {
             'key': WEATHER_API_KEY,
             'q': location,
-            'days': days,  # Number of days of forecast
-            'aqi': 'no',
-            'alerts': 'no'
+            'days': days,
+            'aqi': 'no'
         }
         
         # Add timeout and verify SSL
@@ -52,6 +48,7 @@ def get_weather_data(location, start_date, end_date):
         
         # Check if the response is successful
         if response.status_code == 200:
+            print("Data successfually getted")
             return response.json()
         else:
             st.error(f"Weather API Error: {response.status_code} - {response.text}")
@@ -96,7 +93,7 @@ def generate_packing_list(weather_data, activities, stay_period):
         
         # Call Bedrock
         response = bedrock.invoke_model(
-            modelId='anthropic.claude-3-5-haiku-20241022-v1:0',
+            modelId=modelID_templete,
             body=json.dumps(request_body)
         )
         
@@ -129,7 +126,7 @@ if "trip_info" not in st.session_state:
 # Custom CSS for better UI
 st.markdown("""
 <style>
-    /* Fix input field colors and cursor */
+    /* Fix input field colors */
     .stTextInput>div>div>input {
         color: black !important;
         background-color: white !important;
@@ -290,7 +287,7 @@ if prompt := st.chat_input("Ask about your packing list..."):
         
         # Call Bedrock
         response = bedrock.invoke_model(
-            modelId='anthropic.claude-3-sonnet-20240229-v1:0',
+            modelId=modelID_templete,
             body=json.dumps(request_body)
         )
         
@@ -306,4 +303,4 @@ if prompt := st.chat_input("Ask about your packing list..."):
         
     except Exception as e:
         st.error(f"An error occurred: {str(e)}")
-        st.info("Please make sure you have set up your AWS credentials in the .env file.") 
+        st.info("Please make sure you have set up your AWS credentials in the .env file.")
