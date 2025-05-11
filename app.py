@@ -465,10 +465,10 @@ if prompt := st.chat_input("Ask about your packing list..."):
             for m in st.session_state.messages
         ]
         
-        # Add context about the trip
+        # Add context about the trip to the last user message
         if st.session_state.trip_info["destination"]:
             context = f"\nContext: The user is traveling to {st.session_state.trip_info['destination']} from {st.session_state.trip_info['start_date']} to {st.session_state.trip_info['end_date']}. Planned activities: {st.session_state.trip_info['activities']}"
-            messages.append({"role": "system", "content": context})
+            messages[-1]["content"] = messages[-1]["content"] + context
         
         # Prepare the request body for Claude
         request_body = {
