@@ -5,18 +5,17 @@ import os
 import json
 import requests
 from datetime import datetime, timedelta
-from AWS_access_keys import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION
+
 # Load environment variables
 load_dotenv()
 
 modelID_templete = 'anthropic.claude-3-5-haiku-20241022-v1:0'
 
-
 bedrock = boto3.client(
     service_name='bedrock-runtime',
-    region_name=AWS_REGION,
-    aws_access_key_id=AWS_ACCESS_KEY_ID,
-    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+    region_name=os.getenv('AWS_REGION'),
+    aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+    aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
 )
 
 # Weather API configuration
