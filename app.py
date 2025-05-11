@@ -30,13 +30,16 @@ def get_weather_data(location, start_date, end_date):
         start = datetime.strptime(start_date, "%Y-%m-%d")
         end = datetime.strptime(end_date, "%Y-%m-%d")
         
+        # Calculate number of days
+        days = (end - start).days + 1
+        
         # Get weather forecast
         params = {
             'key': WEATHER_API_KEY,
             'q': location,
-            'dt': start_date,
-            'end_dt': end_date,
-            'aqi': 'no'
+            'days': days,  # Number of days of forecast
+            'aqi': 'no',
+            'alerts': 'no'
         }
         
         # Add timeout and verify SSL
@@ -93,7 +96,7 @@ def generate_packing_list(weather_data, activities, stay_period):
         
         # Call Bedrock
         response = bedrock.invoke_model(
-            modelId='anthropic.claude-3-sonnet-20240229-v1:0',
+            modelId='anthropic.claude-3-5-haiku-20241022-v1:0',
             body=json.dumps(request_body)
         )
         
@@ -126,14 +129,16 @@ if "trip_info" not in st.session_state:
 # Custom CSS for better UI
 st.markdown("""
 <style>
-    /* Fix input field colors */
+    /* Fix input field colors and cursor */
     .stTextInput>div>div>input {
         color: black !important;
         background-color: white !important;
+        caret-color: black !important;  /* Makes cursor visible */
     }
     .stTextArea>div>div>textarea {
         color: black !important;
         background-color: white !important;
+        caret-color: black !important;  /* Makes cursor visible */
     }
     /* Chat message styling */
     .chat-message {
@@ -149,6 +154,7 @@ st.markdown("""
     }
     .chat-message.assistant {
         background-color: #f0f2f6;
+        color: black !important;  /* Ensures text is visible */
     }
     .chat-message .avatar {
         width: 20px;
@@ -160,6 +166,19 @@ st.markdown("""
     .stDateInput>div>div>input {
         color: black !important;
         background-color: white !important;
+        caret-color: black !important;  /* Makes cursor visible */
+    }
+    /* Make sure all text in the app is visible */
+    .stMarkdown {
+        color: black !important;
+    }
+    /* Style for the packing list */
+    .packing-list {
+        color: black !important;
+        background-color: white !important;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        border: 1px solid #e0e0e0;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -211,7 +230,11 @@ with st.expander("Enter Trip Details", expanded=True):
                 if packing_list:
                     st.session_state.messages.append({
                         "role": "assistant",
-                        "content": f"Here's your personalized packing list based on the weather forecast and your activities:\n\n{packing_list}"
+                        "content": f"""<div class="packing-list">
+                        Here's your personalized packing list based on the weather forecast and your activities:
+                        
+                        {packing_list}
+                        </div>"""
                     })
                     st.rerun()
         else:
