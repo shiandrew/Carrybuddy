@@ -5,15 +5,11 @@ import os
 import json
 import requests
 from datetime import datetime, timedelta
-
+from AWS_access_keys import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN, AWS_REGION
 # Load environment variables
 load_dotenv()
 
-# Configure AWS Bedrock
-AWS_ACCESS_KEY_ID = "ASIA47CRWPNZRRXHPR6B"
-AWS_SECRET_ACCESS_KEY = "C3TjI+HL8q3saxA9zUwGBVMfUM+Rudf8ZyVnaHOD"
-AWS_SESSION_TOKEN = "IQoJb3JpZ2luX2VjEAoaCXVzLWVhc3QtMSJHMEUCIQCrVBPIQThTfbpcXLU6FDPdYBXRfEFQ8xm2n8jDKPX2BwIgZP1iPYkQSZQNMFRCuKzryWWaAkeqM2W34Vv/OwbsEOUqogIIsv//////////ARAAGgw4OTEzNzcwNTY2MjciDOKw1ZRyDtCytH6Edyr2AW9Ej0R9BPIKA2IAPEzB4wjRjcSSuqutPfBMSVq6j/CtUzBhStIHdavwtgG/C1ber1cRcoaKBFwy7i7omigQ7pqqqZVEYeDk3Ev6GvuvotL64vWrKcRehTaxVrSf803I5eMPjO64C++ds3ReAV9x9bpx/HKb5vzED7PJewbEIYxEYYlKaFv/hSoYeNqqNUKVxB6EUmRaipvZSe4KtEXpZ6aT0h1LNaWHq/I+uZSEx355gLBADvR9INu0y99rigEIr1iyXkerR3gEuB79tx9GgZ4B9smlEXn0G+xy/RExo1O9AH4w4oNHd6cLKTkEcVdoHzofxqwigDCl9//ABjqdAcPjyPRUQ+OoLmo6L9l4M+ucs60DcV3NKEjnCbSOaM+Ml5C7xrOWPgzgH2TdB8YIK4gLkorYmp54R0DRs8nn7qoQ320K1OFZCi3ZtncpX1ukGUOH7tvu6owfm59I20Z4cRlq7GVXfkMy5nUg2GlQ7dOz27NNn2t7A2iJN7gYjVZmAlpFYayyZjJjx59SFNfDHqqo/twdsfAAqyp5LZk="
-AWS_REGION = "us-west-2"
+
 
 bedrock = boto3.client(
     service_name='bedrock-runtime',
