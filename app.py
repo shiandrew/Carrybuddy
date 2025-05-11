@@ -156,6 +156,48 @@ def generate_daily_routines(weather_data, activities, stay_period):
         st.error(f"Error generating daily routines: {str(e)}")
         return None
 
+def generate_recommended_spots(weather_data, activities, stay_period):
+    """Generate recommended visit spots based on weather data and activities"""
+    try:
+        # Prepare the prompt for Claude
+        prompt = f"""Based on the following information, generate a list of recommended spots to visit each day:
+        
+        Weather Data: {json.dumps(weather_data)}
+        Activities: {activities}
+        Stay Period: {stay_period} days
+        
+        Please provide:
+        1. A list of recommended spots for each day
+        2. Best times to visit each spot based on weather
+        3. Brief description of each spot
+        4. Why these spots are recommended based on the activities and weather
+        
+        Format the response as a day-by-day schedule with specific spots and times."""
+        
+        # Prepare the request body for Claude
+        request_body = {
+            "anthropic_version": "bedrock-2023-05-31",
+            "max_tokens": 1024,
+            "messages": [
+                {"role": "user", "content": prompt}
+            ],
+            "temperature": 0.7
+        }
+        
+        # Call Bedrock
+        response = bedrock.invoke_model(
+            modelId='anthropic.claude-3-5-haiku-20241022-v1:0',
+            body=json.dumps(request_body)
+        )
+        
+        # Parse the response
+        response_body = json.loads(response['body'].read())
+        return response_body['content'][0]['text']
+        
+    except Exception as e:
+        st.error(f"Error generating recommended spots: {str(e)}")
+        return None
+
 # Set page config
 st.set_page_config(
     page_title="Travel Packing Assistant",
@@ -336,15 +378,33 @@ with st.expander("📝 Enter Trip Details", expanded=True):
                         )
                     
                     if packing_list:
-                        st.session_state.messages.append({
-                            "role": "assistant",
-                            "content": f"""<div class="packing-list">
-                            Here's your personalized packing list based on the weather forecast and your activities:
+                        # Generate recommended spots
+                        with st.spinner("Generating recommended spots..."):
+                            recommended_spots = generate_recommended_spots(
+                                weather_data,
+                                activities,
+                                stay_period
+                            )
+                        
+                        if recommended_spots:
+                            st.session_state.messages.append({
+                                "role": "assistant",
+                                "content": f"""<div class="packing-list">
+                                Here's your personalized packing list based on the weather forecast and your activities:
+                                
+                                {packing_list}
+                                </div>"""
+                            })
                             
-                            {packing_list}
-                            </div>"""
-                        })
-                        st.rerun()
+                            st.session_state.messages.append({
+                                "role": "assistant",
+                                "content": f"""<div class="packing-list">
+                                Here are your recommended spots to visit each day:
+                                
+                                {recommended_spots}
+                                </div>"""
+                            })
+                            st.rerun()
         else:
             st.warning("Please fill in all fields to generate a packing list.")
 
