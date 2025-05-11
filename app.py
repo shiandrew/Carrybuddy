@@ -9,6 +9,14 @@ from datetime import datetime, timedelta
 # Load environment variables
 load_dotenv()
 
+# Configure Streamlit to use the port provided by Elastic Beanstalk
+port = int(os.environ.get('PORT', 8501))
+st.set_page_config(
+    page_title="Travel Packing Assistant",
+    page_icon="🧳",
+    layout="centered"
+)
+
 modelID_templete = 'anthropic.claude-3-5-haiku-20241022-v1:0'
 
 bedrock = boto3.client(
@@ -104,13 +112,6 @@ def generate_packing_list(weather_data, activities, stay_period):
     except Exception as e:
         st.error(f"Error generating packing list: {str(e)}")
         return None
-
-# Set page config
-st.set_page_config(
-    page_title="Travel Packing Assistant",
-    page_icon="🧳",
-    layout="centered"
-)
 
 # Initialize session state
 if "messages" not in st.session_state:
