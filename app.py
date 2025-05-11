@@ -9,6 +9,7 @@ from AWS_access_keys import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSIO
 # Load environment variables
 load_dotenv()
 
+modelID_templete = 'anthropic.claude-3-5-haiku-20241022-v1:0'
 
 
 bedrock = boto3.client(
@@ -93,7 +94,7 @@ def generate_packing_list(weather_data, activities, stay_period):
         
         # Call Bedrock
         response = bedrock.invoke_model(
-            modelId='anthropic.claude-3-5-haiku-20241022-v1:0',
+            modelId=modelID_templete,
             body=json.dumps(request_body)
         )
         
@@ -287,7 +288,7 @@ if prompt := st.chat_input("Ask about your packing list..."):
         
         # Call Bedrock
         response = bedrock.invoke_model(
-            modelId='anthropic.claude-3-sonnet-20240229-v1:0',
+            modelId=modelID_templete,
             body=json.dumps(request_body)
         )
         
@@ -303,4 +304,4 @@ if prompt := st.chat_input("Ask about your packing list..."):
         
     except Exception as e:
         st.error(f"An error occurred: {str(e)}")
-        st.info("Please make sure you have set up your AWS credentials in the .env file.") 
+        st.info("Please make sure you have set up your AWS credentials in the .env file.")
