@@ -221,68 +221,70 @@ if "trip_info" not in st.session_state:
 # Custom CSS for better UI
 st.markdown("""
 <style>
-    /* Global background and text */
+    /* Override Streamlit's default theme */
     .stApp {
         background-color: white !important;
     }
     
-    /* Global text color */
-    * {
+    /* Global text color override */
+    .stApp * {
         color: black !important;
     }
     
     /* Title styling */
-    h1 {
+    .stApp h1 {
         text-align: center !important;
         font-size: 3rem !important;
         margin-bottom: 1rem !important;
+        color: black !important;
     }
     
     /* Fix input field colors */
-    .stTextInput>div>div>input {
+    .stApp .stTextInput>div>div>input {
         color: black !important;
         background-color: white !important;
         caret-color: black !important;
     }
-    .stTextArea>div>div>textarea {
+    .stApp .stTextArea>div>div>textarea {
         color: black !important;
         background-color: white !important;
         caret-color: black !important;
     }
     /* Chat message styling */
-    .chat-message {
+    .stApp .chat-message {
         padding: 1.5rem;
         border-radius: 0.5rem;
         margin-bottom: 1rem;
         display: flex;
         flex-direction: column;
+        background-color: white !important;
     }
-    .chat-message.user {
-        background-color: #2b313e;
+    .stApp .chat-message.user {
+        background-color: #2b313e !important;
         color: white !important;
     }
-    .chat-message.assistant {
-        background-color: #f0f2f6;
+    .stApp .chat-message.assistant {
+        background-color: #f0f2f6 !important;
         color: black !important;
     }
-    .chat-message .avatar {
+    .stApp .chat-message .avatar {
         width: 20px;
         height: 20px;
         border-radius: 50%;
         margin-right: 0.5rem;
     }
     /* Form styling */
-    .stDateInput>div>div>input {
+    .stApp .stDateInput>div>div>input {
         color: black !important;
         background-color: white !important;
         caret-color: black !important;
     }
     /* Make sure all text in the app is visible */
-    .stMarkdown {
+    .stApp .stMarkdown {
         color: black !important;
     }
     /* Style for the packing list */
-    .packing-list {
+    .stApp .packing-list {
         color: black !important;
         background-color: white !important;
         padding: 1rem;
@@ -290,33 +292,51 @@ st.markdown("""
         border: 1px solid #e0e0e0;
     }
     /* Date inputs container */
-    .date-inputs {
+    .stApp .date-inputs {
         display: flex;
         gap: 1rem;
         margin-top: 1rem;
     }
-    .date-inputs > div {
+    .stApp .date-inputs > div {
         flex: 1;
     }
     /* Labels and text */
-    label {
+    .stApp label {
         color: black !important;
     }
-    .stButton>button {
+    .stApp .stButton>button {
+        color: black !important;
+        background-color: white !important;
+    }
+    .stApp .stExpander {
         color: black !important;
     }
-    .stExpander {
+    .stApp .streamlit-expanderHeader {
         color: black !important;
-    }
-    .streamlit-expanderHeader {
-        color: black !important;
+        background-color: white !important;
     }
     /* Chat input */
-    .stChatInput>div>div>textarea {
+    .stApp .stChatInput>div>div>textarea {
         color: black !important;
+        background-color: white !important;
     }
     /* Warning messages */
-    .stAlert {
+    .stApp .stAlert {
+        color: black !important;
+        background-color: white !important;
+    }
+    /* Override Streamlit's default dark mode */
+    .stApp [data-testid="stSidebar"] {
+        background-color: white !important;
+    }
+    .stApp [data-testid="stSidebar"] * {
+        color: black !important;
+    }
+    /* Override any Streamlit theme colors */
+    .stApp [data-theme="light"] {
+        background-color: white !important;
+    }
+    .stApp [data-theme="light"] * {
         color: black !important;
     }
 </style>
