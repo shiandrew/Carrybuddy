@@ -177,21 +177,26 @@ if "trip_info" not in st.session_state:
 # Custom CSS for better UI
 st.markdown("""
 <style>
-    /* Global background */
+    /* Global background and text */
     .stApp {
         background-color: white !important;
+    }
+    
+    /* Global text color */
+    * {
+        color: black !important;
     }
     
     /* Fix input field colors */
     .stTextInput>div>div>input {
         color: black !important;
         background-color: white !important;
-        caret-color: black !important;  /* Makes cursor visible */
+        caret-color: black !important;
     }
     .stTextArea>div>div>textarea {
         color: black !important;
         background-color: white !important;
-        caret-color: black !important;  /* Makes cursor visible */
+        caret-color: black !important;
     }
     /* Chat message styling */
     .chat-message {
@@ -203,11 +208,11 @@ st.markdown("""
     }
     .chat-message.user {
         background-color: #2b313e;
-        color: white;
+        color: white !important;
     }
     .chat-message.assistant {
         background-color: #f0f2f6;
-        color: black !important;  /* Ensures text is visible */
+        color: black !important;
     }
     .chat-message .avatar {
         width: 20px;
@@ -219,7 +224,7 @@ st.markdown("""
     .stDateInput>div>div>input {
         color: black !important;
         background-color: white !important;
-        caret-color: black !important;  /* Makes cursor visible */
+        caret-color: black !important;
     }
     /* Make sure all text in the app is visible */
     .stMarkdown {
@@ -241,6 +246,27 @@ st.markdown("""
     }
     .date-inputs > div {
         flex: 1;
+    }
+    /* Labels and text */
+    label {
+        color: black !important;
+    }
+    .stButton>button {
+        color: black !important;
+    }
+    .stExpander {
+        color: black !important;
+    }
+    .streamlit-expanderHeader {
+        color: black !important;
+    }
+    /* Chat input */
+    .stChatInput>div>div>textarea {
+        color: black !important;
+    }
+    /* Warning messages */
+    .stAlert {
+        color: black !important;
     }
 </style>
 """, unsafe_allow_html=True)
