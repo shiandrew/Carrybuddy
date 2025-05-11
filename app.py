@@ -177,6 +177,11 @@ if "trip_info" not in st.session_state:
 # Custom CSS for better UI
 st.markdown("""
 <style>
+    /* Global background */
+    .stApp {
+        background-color: white !important;
+    }
+    
     /* Fix input field colors */
     .stTextInput>div>div>input {
         color: black !important;
@@ -228,11 +233,20 @@ st.markdown("""
         border-radius: 0.5rem;
         border: 1px solid #e0e0e0;
     }
+    /* Date inputs container */
+    .date-inputs {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    .date-inputs > div {
+        flex: 1;
+    }
 </style>
 """, unsafe_allow_html=True)
 
 # Title
-st.title("🧳 Travel Packing Assistant")
+st.title("Carry Buddy")
 st.markdown("---")
 
 # Trip Information Form
@@ -240,10 +254,17 @@ with st.expander("Enter Trip Details", expanded=True):
     col1, col2 = st.columns(2)
     with col1:
         destination = st.text_input("Destination (e.g., 'London, UK' or 'New York, USA')")
-        start_date = st.date_input("Start Date")
     with col2:
         activities = st.text_area("Planned Activities (one per line)")
+    
+    # Date inputs in a single row
+    st.markdown('<div class="date-inputs">', unsafe_allow_html=True)
+    col3, col4 = st.columns(2)
+    with col3:
+        start_date = st.date_input("Start Date")
+    with col4:
         end_date = st.date_input("End Date")
+    st.markdown('</div>', unsafe_allow_html=True)
     
     if st.button("Generate Packing List"):
         if destination and start_date and end_date and activities:
