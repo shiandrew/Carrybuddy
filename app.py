@@ -20,6 +20,8 @@ WEATHER_API_KEY = st.secrets["weather_api"]["api_key"]
 WEATHER_API_BASE_URL = "https://api.weatherapi.com/v1"  # Changed to https
 
 # Configure AWS Bedrock
+modelID_templete = 'anthropic.claude-3-5-haiku-20241022-v1:0'
+
 bedrock = boto3.client(
     service_name='bedrock-runtime',
     region_name=AWS_REGION,
@@ -101,7 +103,7 @@ def generate_packing_list(weather_data, activities, stay_period):
         
         # Call Bedrock
         response = bedrock.invoke_model(
-            modelId='anthropic.claude-3-5-haiku-20241022-v1:0',
+            modelId=modelID_templete,
             body=json.dumps(request_body)
         )
         
@@ -144,7 +146,7 @@ def generate_daily_routines(weather_data, activities, stay_period):
         
         # Call Bedrock
         response = bedrock.invoke_model(
-            modelId='anthropic.claude-3-5-haiku-20241022-v1:0',
+            modelId=modelID_templete,
             body=json.dumps(request_body)
         )
         
@@ -186,7 +188,7 @@ def generate_recommended_spots(weather_data, activities, stay_period):
         
         # Call Bedrock
         response = bedrock.invoke_model(
-            modelId='anthropic.claude-3-5-haiku-20241022-v1:0',
+            modelId=modelID_templete,
             body=json.dumps(request_body)
         )
         
@@ -458,7 +460,7 @@ if prompt := st.chat_input("Ask about your packing list..."):
         
         # Call Bedrock
         response = bedrock.invoke_model(
-            modelId='anthropic.claude-3-sonnet-20240229-v1:0',
+            modelId=modelID_templete,
             body=json.dumps(request_body)
         )
         
