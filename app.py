@@ -187,6 +187,13 @@ st.markdown("""
         color: black !important;
     }
     
+    /* Title styling */
+    h1 {
+        text-align: center !important;
+        font-size: 3rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
     /* Fix input field colors */
     .stTextInput>div>div>input {
         color: black !important;
@@ -272,66 +279,72 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Title
-st.title("Carry Buddy")
+st.title("🧳 Carry Buddy ✈️")
 st.markdown("---")
 
 # Trip Information Form
-with st.expander("Enter Trip Details", expanded=True):
+with st.expander("📝 Enter Trip Details", expanded=True):
     col1, col2 = st.columns(2)
     with col1:
-        destination = st.text_input("Destination (e.g., 'London, UK' or 'New York, USA')")
+        destination = st.text_input("🌍 Destination (e.g., 'London, UK' or 'New York, USA')")
     with col2:
-        activities = st.text_area("Planned Activities (one per line)")
+        activities = st.text_area(
+            "🎯 Planned Activities",
+            placeholder="Enter one activity per line:\n- Sightseeing\n- Beach\n- Hiking\n- Shopping",
+            help="List each activity on a new line"
+        )
     
     # Date inputs in a single row
     st.markdown('<div class="date-inputs">', unsafe_allow_html=True)
     col3, col4 = st.columns(2)
     with col3:
-        start_date = st.date_input("Start Date")
+        start_date = st.date_input("📅 Start Date", min_value=datetime.now().date())
     with col4:
-        end_date = st.date_input("End Date")
+        end_date = st.date_input("📅 End Date", min_value=datetime.now().date())
     st.markdown('</div>', unsafe_allow_html=True)
     
-    if st.button("Generate Packing List"):
+    if st.button("✨ Generate Packing List"):
         if destination and start_date and end_date and activities:
-            # Update trip info
-            st.session_state.trip_info = {
-                "destination": destination,
-                "start_date": start_date.strftime("%Y-%m-%d"),
-                "end_date": end_date.strftime("%Y-%m-%d"),
-                "activities": activities
-            }
-            
-            # Get weather data
-            with st.spinner("Fetching weather data..."):
-                weather_data = get_weather_data(
-                    destination,
-                    st.session_state.trip_info["start_date"],
-                    st.session_state.trip_info["end_date"]
-                )
-            
-            if weather_data:
-                # Calculate stay period
-                stay_period = (end_date - start_date).days + 1
+            # Validate date range
+            stay_period = (end_date - start_date).days + 1
+            if stay_period > 3:
+                st.error("⚠️ Please select a stay period of 3 days or less")
+            else:
+                # Update trip info
+                st.session_state.trip_info = {
+                    "destination": destination,
+                    "start_date": start_date.strftime("%Y-%m-%d"),
+                    "end_date": end_date.strftime("%Y-%m-%d"),
+                    "activities": activities
+                }
                 
-                # Generate packing list
-                with st.spinner("Generating packing list..."):
-                    packing_list = generate_packing_list(
-                        weather_data,
-                        activities,
-                        stay_period
+                # Get weather data
+                with st.spinner("Fetching weather data..."):
+                    weather_data = get_weather_data(
+                        destination,
+                        st.session_state.trip_info["start_date"],
+                        st.session_state.trip_info["end_date"]
                     )
                 
-                if packing_list:
-                    st.session_state.messages.append({
-                        "role": "assistant",
-                        "content": f"""<div class="packing-list">
-                        Here's your personalized packing list based on the weather forecast and your activities:
-                        
-                        {packing_list}
-                        </div>"""
-                    })
-                    st.rerun()
+                if weather_data:
+                    # Generate packing list
+                    with st.spinner("Generating packing list..."):
+                        packing_list = generate_packing_list(
+                            weather_data,
+                            activities,
+                            stay_period
+                        )
+                    
+                    if packing_list:
+                        st.session_state.messages.append({
+                            "role": "assistant",
+                            "content": f"""<div class="packing-list">
+                            Here's your personalized packing list based on the weather forecast and your activities:
+                            
+                            {packing_list}
+                            </div>"""
+                        })
+                        st.rerun()
         else:
             st.warning("Please fill in all fields to generate a packing list.")
 
