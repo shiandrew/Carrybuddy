@@ -182,10 +182,10 @@ st.markdown("""
         --primary: #4F46E5;
         --primary-dark: #4338CA;
         --secondary: #10B981;
-        --background: #F9FAFB;
+        --background: #FFFFFF;
         --surface: #FFFFFF;
-        --text: #1F2937;
-        --text-light: #6B7280;
+        --text: #000000;
+        --text-light: #000000;
         --border: #E5E7EB;
         --shadow: rgba(0, 0, 0, 0.1);
     }
@@ -200,11 +200,12 @@ st.markdown("""
         padding: 3rem 2rem;
         max-width: 1000px;
         margin: 0 auto;
+        background-color: var(--background);
     }
 
     /* Title */
     h1 {
-        color: var(--primary) !important;
+        color: var(--text) !important;
         font-size: 2.75rem !important;
         font-weight: 800 !important;
         text-align: center !important;
@@ -214,7 +215,7 @@ st.markdown("""
 
     /* Subtitle */
     .subtitle {
-        color: var(--text-light) !important;
+        color: var(--text) !important;
         font-size: 1.25rem !important;
         text-align: center !important;
         margin-bottom: 3rem !important;
@@ -319,6 +320,7 @@ st.markdown("""
         padding: 1.5rem;
         margin-bottom: 1.5rem;
         box-shadow: 0 2px 4px var(--shadow);
+        color: var(--text) !important;
     }
 
     .chat-message.user {
@@ -329,7 +331,7 @@ st.markdown("""
 
     .chat-message.assistant {
         background: var(--surface);
-        color: var(--text);
+        color: var(--text) !important;
         margin-right: 2rem;
         border: 2px solid var(--border);
     }
@@ -386,7 +388,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Title and Subtitle
-st.title("✈️ Travel Packing Assistant")
+st.title("Carry Buddy")
 st.markdown("""
 <div class="subtitle">
     Plan your perfect trip with our AI-powered packing assistant
