@@ -18,11 +18,16 @@ A smart travel packing assistant built with Streamlit and AWS Bedrock's Claude m
    ```bash
    pip install -r requirements.txt
    ```
-3. Create a `.env` file in the root directory and add your AWS credentials:
-   ```
-   AWS_ACCESS_KEY_ID=your_access_key_here
-   AWS_SECRET_ACCESS_KEY=your_secret_key_here
-   AWS_REGION=your_aws_region_here  # e.g., us-east-1
+3. Create a `streamlit/secrets.toml` file in the root directory and add your AWS credentials:
+   ```toml
+   [aws]
+   aws_access_key_id = "your_access_key_here"
+   aws_secret_access_key = "your_secret_key_here"
+   aws_region = "your_aws_region_here"  # e.g., us-east-1
+   aws_session_token = "your_session_token_here"  # optional
+
+   [weather_api]
+   api_key = "your_weather_api_key_here"
    ```
 4. Make sure you have access to AWS Bedrock service and the Claude model
 5. Run the Streamlit app:
