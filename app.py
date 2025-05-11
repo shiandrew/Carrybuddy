@@ -174,266 +174,78 @@ if "trip_info" not in st.session_state:
         "activities": None
     }
 
-# Custom CSS for new UI design
+# Custom CSS for better UI
 st.markdown("""
 <style>
-    /* Modern UI Theme */
-    :root {
-        --primary: #4F46E5;
-        --primary-dark: #4338CA;
-        --secondary: #10B981;
-        --background: #FFFFFF;
-        --surface: #FFFFFF;
-        --text: #000000;
-        --text-light: #000000;
-        --border: #E5E7EB;
-        --shadow: rgba(0, 0, 0, 0.1);
+    /* Fix input field colors */
+    .stTextInput>div>div>input {
+        color: black !important;
+        background-color: white !important;
+        caret-color: black !important;  /* Makes cursor visible */
     }
-
-    /* Global Styles */
-    .stApp {
-        background-color: var(--background);
-    }
-
-    /* Container */
-    .main .block-container {
-        padding: 3rem 2rem;
-        max-width: 1000px;
-        margin: 0 auto;
-        background-color: var(--background);
-    }
-
-    /* Title */
-    h1 {
-        color: var(--text) !important;
-        font-size: 2.75rem !important;
-        font-weight: 800 !important;
-        text-align: center !important;
-        margin-bottom: 1.5rem !important;
-        letter-spacing: -0.025em !important;
-    }
-
-    /* Subtitle */
-    .subtitle {
-        color: var(--text) !important;
-        font-size: 1.25rem !important;
-        text-align: center !important;
-        margin-bottom: 3rem !important;
-    }
-
-    /* Card Style */
-    .card {
-        background: var(--surface);
-        border-radius: 1rem;
-        padding: 2rem;
-        box-shadow: 0 4px 6px var(--shadow);
-        margin-bottom: 2rem;
-    }
-
-    /* Form Elements */
-    .stTextInput>div>div>input,
-    .stTextArea>div>div>textarea,
-    .stDateInput>div>div>input {
-        background: var(--surface) !important;
-        border: 2px solid var(--border) !important;
-        border-radius: 0.75rem !important;
-        padding: 0.75rem 1rem !important;
-        color: var(--text) !important;
-        font-size: 1rem !important;
-        transition: all 0.2s ease !important;
-    }
-
-    /* Make text area smaller and fixed height */
     .stTextArea>div>div>textarea {
-        height: 80px !important;
-        min-height: 80px !important;
-        max-height: 80px !important;
-        resize: none !important;
+        color: black !important;
+        background-color: white !important;
+        caret-color: black !important;  /* Makes cursor visible */
     }
-
-    /* Ensure date input has fixed height */
-    .stDateInput>div>div>input {
-        height: 42px !important;
-        min-height: 42px !important;
-        max-height: 42px !important;
-    }
-
-    /* Force columns to be equal height */
-    .row-widget.stHorizontal {
-        display: flex !important;
-        gap: 2rem !important;
-    }
-
-    .row-widget.stHorizontal > div {
-        flex: 1 1 0 !important;
-        min-width: 0 !important;
-        display: flex !important;
-        flex-direction: column !important;
-    }
-
-    /* Ensure form elements take full width */
-    .stTextInput,
-    .stTextArea,
-    .stDateInput {
-        width: 100% !important;
-    }
-
-    .stTextInput>div>div>input:focus,
-    .stTextArea>div>div>textarea:focus,
-    .stDateInput>div>div>input:focus {
-        border-color: var(--primary) !important;
-        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1) !important;
-    }
-
-    /* Labels */
-    .stTextInput label,
-    .stTextArea label,
-    .stDateInput label {
-        color: var(--text) !important;
-        font-size: 0.875rem !important;
-        font-weight: 600 !important;
-        margin-bottom: 0.5rem !important;
-    }
-
-    /* Button */
-    .stButton>button {
-        background: var(--primary) !important;
-        color: white !important;
-        border-radius: 0.75rem !important;
-        padding: 0.75rem 1.5rem !important;
-        font-weight: 600 !important;
-        border: none !important;
-        transition: all 0.2s ease !important;
-        box-shadow: 0 2px 4px var(--shadow) !important;
-    }
-
-    .stButton>button:hover {
-        background: var(--primary-dark) !important;
-        transform: translateY(-1px) !important;
-        box-shadow: 0 4px 6px var(--shadow) !important;
-    }
-
-    /* Chat Messages */
+    /* Chat message styling */
     .chat-message {
-        background: var(--surface);
-        border-radius: 1rem;
         padding: 1.5rem;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 2px 4px var(--shadow);
-        color: var(--text) !important;
-    }
-
-    .chat-message.user {
-        background: var(--primary);
-        color: white;
-        margin-left: 2rem;
-    }
-
-    .chat-message.assistant {
-        background: var(--surface);
-        color: var(--text) !important;
-        margin-right: 2rem;
-        border: 2px solid var(--border);
-    }
-
-    /* Expander */
-    .streamlit-expanderHeader {
-        background: var(--primary) !important;
-        color: white !important;
-        border-radius: 1rem !important;
-        padding: 1.25rem !important;
-        font-weight: 600 !important;
-        box-shadow: 0 2px 4px var(--shadow) !important;
-    }
-
-    .streamlit-expanderContent {
-        background: var(--surface) !important;
-        border-radius: 0 0 1rem 1rem !important;
-        padding: 2rem !important;
-        margin-top: -0.5rem !important;
-        box-shadow: 0 4px 6px var(--shadow) !important;
-    }
-
-    /* Chat Input */
-    .stChatInput>div>div>textarea {
-        background: var(--surface) !important;
-        border: 2px solid var(--border) !important;
-        border-radius: 0.75rem !important;
-        padding: 1rem !important;
-        color: var(--text) !important;
-    }
-
-    /* Alerts */
-    .stAlert {
-        border-radius: 0.75rem !important;
-        padding: 1rem !important;
-        box-shadow: 0 2px 4px var(--shadow) !important;
-    }
-
-    /* Spacing */
-    .element-container {
-        margin-bottom: 1.5rem !important;
-    }
-
-    /* Date inputs container */
-    .date-inputs {
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
         display: flex;
-        gap: 2rem;
-        margin-top: 1rem;
+        flex-direction: column;
     }
-    .date-inputs > div {
-        flex: 1;
+    .chat-message.user {
+        background-color: #2b313e;
+        color: white;
+    }
+    .chat-message.assistant {
+        background-color: #f0f2f6;
+        color: black !important;  /* Ensures text is visible */
+    }
+    .chat-message .avatar {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        margin-right: 0.5rem;
+    }
+    /* Form styling */
+    .stDateInput>div>div>input {
+        color: black !important;
+        background-color: white !important;
+        caret-color: black !important;  /* Makes cursor visible */
+    }
+    /* Make sure all text in the app is visible */
+    .stMarkdown {
+        color: black !important;
+    }
+    /* Style for the packing list */
+    .packing-list {
+        color: black !important;
+        background-color: white !important;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        border: 1px solid #e0e0e0;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Title and Subtitle
-st.title("Carry Buddy")
-st.markdown("""
-<div class="subtitle">
-    Plan your perfect trip with our AI-powered packing assistant
-</div>
-""", unsafe_allow_html=True)
+# Title
+st.title("🧳 Travel Packing Assistant")
+st.markdown("---")
 
 # Trip Information Form
-with st.expander("📝 Trip Details", expanded=True):
-    st.markdown("""
-    <div style='color: var(--text-light); margin-bottom: 1.5rem;'>
-        Tell us about your trip to get a personalized packing list
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # First row: Destination and Activities
+with st.expander("Enter Trip Details", expanded=True):
     col1, col2 = st.columns(2)
     with col1:
-        destination = st.text_input(
-            "🌍 Destination",
-            placeholder="e.g., London, UK",
-            help="Where are you traveling to?"
-        )
+        destination = st.text_input("Destination (e.g., 'London, UK' or 'New York, USA')")
+        start_date = st.date_input("Start Date")
     with col2:
-        activities = st.text_area(
-            "🎯 Activities",
-            placeholder="Enter one activity per line\n- Sightseeing\n- Beach\n- Hiking",
-            help="What activities do you have planned?"
-        )
+        activities = st.text_area("Planned Activities (one per line)")
+        end_date = st.date_input("End Date")
     
-    # Second row: Dates
-    st.markdown('<div class="date-inputs">', unsafe_allow_html=True)
-    col3, col4 = st.columns(2)
-    with col3:
-        start_date = st.date_input(
-            "📅 Start Date",
-            help="When does your trip begin?"
-        )
-    with col4:
-        end_date = st.date_input(
-            "📅 End Date",
-            help="When does your trip end?"
-        )
-    st.markdown('</div>', unsafe_allow_html=True)
-    
-    if st.button("✨ Generate Packing List & Daily Routine"):
+    if st.button("Generate Packing List"):
         if destination and start_date and end_date and activities:
             # Update trip info
             st.session_state.trip_info = {
@@ -464,29 +276,15 @@ with st.expander("📝 Trip Details", expanded=True):
                     )
                 
                 if packing_list:
-                    # Generate daily routines
-                    with st.spinner("Generating daily routines..."):
-                        daily_routines = generate_daily_routines(
-                            weather_data,
-                            activities,
-                            stay_period
-                        )
-                    
-                    if daily_routines:
-                        st.session_state.messages.append({
-                            "role": "assistant",
-                            "content": f"""Here's your personalized packing list based on the weather forecast and your activities:
-                            
-                            {packing_list}"""
-                        })
+                    st.session_state.messages.append({
+                        "role": "assistant",
+                        "content": f"""<div class="packing-list">
+                        Here's your personalized packing list based on the weather forecast and your activities:
                         
-                        st.session_state.messages.append({
-                            "role": "assistant",
-                            "content": f"""Here's your suggested daily routine for each day of your stay:
-                            
-                            {daily_routines}"""
-                        })
-                        st.rerun()
+                        {packing_list}
+                        </div>"""
+                    })
+                    st.rerun()
         else:
             st.warning("Please fill in all fields to generate a packing list.")
 
@@ -515,7 +313,7 @@ for message in st.session_state.messages:
             """, unsafe_allow_html=True)
 
 # Chat input for additional questions
-if prompt := st.chat_input("Ask about your packing list or daily routine... (e.g., 'What should I do if it rains?' or 'Can you suggest more indoor activities?')"):
+if prompt := st.chat_input("Ask about your packing list..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     
     try:
