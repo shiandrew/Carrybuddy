@@ -202,7 +202,7 @@ def generate_recommended_spots(weather_data, activities, stay_period):
 
 # Set page config
 st.set_page_config(
-    page_title="Travel Packing Assistant",
+    page_title="Carry Buddy",
     page_icon="🧳",
     layout="centered"
 )
@@ -323,6 +323,21 @@ st.markdown("""
     /* Chat input */
     .stApp .stChatInput>div>div>textarea {
         color: black !important;
+        background-color: white !important;
+        border: 1px solid #e0e0e0 !important;
+    }
+    .stApp .stChatInput>div>div>textarea:focus {
+        border-color: #2b313e !important;
+        box-shadow: 0 0 0 1px #2b313e !important;
+    }
+    /* Chat input container */
+    .stApp .stChatInput {
+        background-color: white !important;
+    }
+    .stApp .stChatInput>div {
+        background-color: white !important;
+    }
+    .stApp .stChatInput>div>div {
         background-color: white !important;
     }
     /* Warning messages */
@@ -470,10 +485,10 @@ if prompt := st.chat_input("Ask about your packing list..."):
             for m in st.session_state.messages
         ]
         
-        # Add context about the trip
+        # Add context about the trip to the last user message
         if st.session_state.trip_info["destination"]:
             context = f"\nContext: The user is traveling to {st.session_state.trip_info['destination']} from {st.session_state.trip_info['start_date']} to {st.session_state.trip_info['end_date']}. Planned activities: {st.session_state.trip_info['activities']}"
-            messages.append({"role": "system", "content": context})
+            messages[-1]["content"] = messages[-1]["content"] + context
         
         # Prepare the request body for Claude
         request_body = {
