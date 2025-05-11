@@ -5,7 +5,7 @@ import os
 import json
 import requests
 from datetime import datetime, timedelta
-from AWS_access_keys import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN, AWS_REGION
+from AWS_access_keys import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION
 # Load environment variables
 load_dotenv()
 
