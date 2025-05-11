@@ -1,3 +1,8 @@
-.env
+
+AWS_access_keys.py
 .DS_Store
-__pycache__
+.streamlit/secrets.toml
+.env
+__pycache__/
+*.pyc
+
