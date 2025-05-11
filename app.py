@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 # Load environment variables
 load_dotenv()
 
+
 # Get AWS credentials from Streamlit secrets
 AWS_ACCESS_KEY_ID = st.secrets["aws"]["aws_access_key_id"]
 AWS_SECRET_ACCESS_KEY = st.secrets["aws"]["aws_secret_access_key"]
@@ -20,6 +21,7 @@ WEATHER_API_KEY = st.secrets["weather_api"]["api_key"]
 WEATHER_API_BASE_URL = "https://api.weatherapi.com/v1"  # Changed to https
 
 # Configure AWS Bedrock
+
 modelID_templete = 'anthropic.claude-3-5-haiku-20241022-v1:0'
 
 bedrock = boto3.client(
@@ -28,7 +30,7 @@ bedrock = boto3.client(
     aws_access_key_id=AWS_ACCESS_KEY_ID,
     aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
     aws_session_token=AWS_SESSION_TOKEN if AWS_SESSION_TOKEN else None
-)
+
 
 def get_weather_data(location, start_date, end_date):
     """Fetch weather data for a location and date range"""
@@ -36,17 +38,14 @@ def get_weather_data(location, start_date, end_date):
         # Convert dates to datetime objects
         start = datetime.strptime(start_date, "%Y-%m-%d")
         end = datetime.strptime(end_date, "%Y-%m-%d")
-        
-        # Calculate number of days
-        days = (end - start).days + 1
+        days = min((end - start).days + 1, 14)
         
         # Get weather forecast
         params = {
             'key': WEATHER_API_KEY,
             'q': location,
-            'days': days,  # Number of days of forecast
-            'aqi': 'no',
-            'alerts': 'no'
+            'days': days,
+            'aqi': 'no'
         }
         
         # Add timeout and verify SSL
@@ -59,6 +58,7 @@ def get_weather_data(location, start_date, end_date):
         
         # Check if the response is successful
         if response.status_code == 200:
+            print("Data successfually getted")
             return response.json()
         else:
             st.error(f"Weather API Error: {response.status_code} - {response.text}")
@@ -221,6 +221,7 @@ if "trip_info" not in st.session_state:
 # Custom CSS for better UI
 st.markdown("""
 <style>
+
     /* Override Streamlit's default theme */
     .stApp {
         background-color: white !important;
@@ -241,6 +242,10 @@ st.markdown("""
     
     /* Fix input field colors */
     .stApp .stTextInput>div>div>input {
+
+    /* Fix input field colors */
+    .stTextInput>div>div>input {
+
         color: black !important;
         background-color: white !important;
         caret-color: black !important;
@@ -496,4 +501,4 @@ if prompt := st.chat_input("Ask about your packing list..."):
         
     except Exception as e:
         st.error(f"An error occurred: {str(e)}")
-        st.info("Please make sure you have set up your AWS credentials in the .env file.") 
+        st.info("Please make sure you have set up your AWS credentials in the .env file.")
