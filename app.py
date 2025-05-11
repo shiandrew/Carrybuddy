@@ -30,7 +30,7 @@ bedrock = boto3.client(
     aws_access_key_id=AWS_ACCESS_KEY_ID,
     aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
     aws_session_token=AWS_SESSION_TOKEN if AWS_SESSION_TOKEN else None
-
+)
 
 def get_weather_data(location, start_date, end_date):
     """Fetch weather data for a location and date range"""
