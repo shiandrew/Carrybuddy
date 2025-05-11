@@ -53,6 +53,17 @@ A smart travel packing assistant built with Streamlit and AWS Bedrock's Claude m
 - **Interactive Chat**: Ask questions about your packing list or get additional recommendations
 - **Smart Suggestions**: Uses AI to provide context-aware packing recommendations
 
+## Demo
+
+### 1. Enter Trip Details
+![Trip Details Form](images/packing-list-form.png)
+
+### 2. Packing List Result
+![Packing List Result](images/packing-list-result.png)
+
+### 3. Detailed Packing List
+![Packing List Details](images/packing-list-details.png)
+
 ## Note
 
 Make sure you have:
