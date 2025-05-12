@@ -1,5 +1,20 @@
 # Travel Packing Assistant
 
+**AWS CloudHacks 2025 Submission**
+
+This repository was created for the AWS CloudHacks 2025 hackathon.
+
+## Technologies Used
+- AWS Bedrock
+- Claude 3.5 Haiku
+- Streamlit
+- Weather API
+
+## Team Members
+- Deyi Chen
+- Junhao Che
+- Andrew Shi
+
 A smart travel packing assistant built with Streamlit and AWS Bedrock's Claude model, integrated with weather data to generate personalized packing lists.
 
 ## Features
